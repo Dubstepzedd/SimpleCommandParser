@@ -1,8 +1,6 @@
 package com.liamand;
 
-import com.liamand.commands.HelpCommand;
-import com.liamand.commands.RestartCommand;
-import com.liamand.commands.StopCommand;
+import com.liamand.commands.Command;
 
 import java.util.Scanner;
 
@@ -17,9 +15,80 @@ public class Main {
         Parser parser = new Parser(" ");
 
         //Register commands
-        parser.registerCommand(new StopCommand(parser));
-        parser.registerCommand(new HelpCommand(parser));
-        parser.registerCommand(new RestartCommand(parser));
+        parser.registerCommand(new Command() {
+
+            @Override
+            public String getKeyWord() {
+                return "stop";
+            }
+
+            @Override
+            public String getDescription() {
+                return "Stops the server.";
+            }
+
+            @Override
+            public Argument.TYPE[] getArguments() {
+                return new Argument.TYPE[0];
+            }
+
+            @Override
+            public void execute(Object[] args) {
+                for (Object obj : args) {
+                    System.out.println(obj.getClass());
+                }
+                System.out.println("[Stopping]");
+                System.exit(-1);
+            }
+        });
+
+        parser.registerCommand(new Command() {
+
+            @Override
+            public String getKeyWord() {
+                return "restart";
+            }
+
+            @Override
+            public String getDescription() {
+                return "Restarts the server.";
+            }
+
+            @Override
+            public Argument.TYPE[] getArguments() {
+                return new Argument.TYPE[0];
+            }
+
+            @Override
+            public void execute(Object[] args) {
+                System.out.println("[Restarting]");
+                Main.main(new String[0]);
+            }
+        });
+        parser.registerCommand(new Command() {
+
+            @Override
+            public String getKeyWord() {
+                return "help";
+            }
+
+            @Override
+            public String getDescription() {
+                return "Displays all commands.";
+            }
+
+            @Override
+            public Argument.TYPE[] getArguments() {
+                return new Argument.TYPE[0];
+            }
+
+            @Override
+            public void execute(Object[] args) {
+                for(Command cmd : parser.getRegisteredCommands()) {
+                    System.out.println("%s : %s".formatted(cmd.getKeyWord(),cmd.getDescription()));
+                }
+            }
+        });
 
         Scanner scanner = new Scanner(System.in);
         while(true) {

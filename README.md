@@ -9,7 +9,7 @@ The Parser is the core class of the command parser.
 
 You initialise a Parser object by doing `Parser parser = new Parser(separator)` where ``separator`` is a `String` that tells the Parser how to split the `String`.
 
-Before parsing a `String` you need to add all the commands that will be used. These commands have to inherit from the `Command` class. 
+Before parsing a `String` you need to add all the commands that will be used. These commands have to inherit from the `Command` class, but you can also create an `anonymous class` of`Command`. e.g: `new Command() { ... }`. 
 
 The `Command` class has a few methods. 
 
