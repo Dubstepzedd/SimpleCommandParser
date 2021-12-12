@@ -1,6 +1,6 @@
 package com.liamand;
 
-import com.liamand.commands.Command;
+import com.liamand.exceptions.CommandSyntaxError;
 import com.liamand.tree.ArgumentNode;
 import com.liamand.tree.Root;
 
@@ -8,61 +8,110 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Parser {
-    private ArrayList<Command> registeredCommands;
+    //----- VARIABLES -----//
     private final String SEPARATOR;
 
+    /** Initializes a new Parser with a specified word separator. **/
     public Parser(String separator) {
         SEPARATOR = separator;
-        registeredCommands = new ArrayList<>();
     }
 
     /** Parses a command string. We therefore assume that this is an actual command **/
-    public void parse(String str,Dispatcher dispatcher) throws ClassNotFoundException{
+    public void parse(final String str,final Dispatcher dispatcher) throws CommandSyntaxError{
         //Tokenize the String
         String[] tokenizedStr = str.split(SEPARATOR);
 
-        //Get the keyword and arguments
+        //Get the literal and arguments
         String literal = tokenizedStr[0];
         String[] args = Arrays.copyOfRange(tokenizedStr,1,tokenizedStr.length);
+        Token.TYPE[] types = getArgumentTypes(args);
 
-        //Check that the keyword, str, exists.
+        //If the arguments are empty, replace it with a new array with the single element TYPE.NONE.
+        if(types.length == 0) {
+            types = new Token.TYPE[] {Token.TYPE.NONE};
+        }
+
         for(Root root : dispatcher.getCommands()) {
-            //TODO Add (1) Arguments and (2) handle commands with or without arguments.
-            if(literal.equals(root.getLiteral())) {
 
-                Token.TYPE[] parsedArgsTypes = getArgumentTypes(args);
-                if(parsedArgsTypes.length == 0)
-                    parsedArgsTypes = new Token.TYPE[] {Token.TYPE.NONE};
+            //The keyword match
+            if(root.getLiteral().equals(literal)) {
 
-                //Loop through the arguments that the root has.
-                boolean argsMatched = false;
-                for(ArgumentNode node : root.getArguments()) {
+                //Create an array with the known depth. We check all nodes / leaves for the args pattern.
+                ArrayList<ArgumentNode> output = new ArrayList<>();
+                //Check arguments!
+                boolean wasPatternFound = false;
+                for(Object node : root.getArgs()) {
 
-                    //Check if the argument types match
-                    if(Arrays.equals(node.getArgTypes(), parsedArgsTypes)) {
-                        argsMatched = true;
-                        //Convert the String array to the actual types
-                        Object[] convertedArgs = parseArguments(args,parsedArgsTypes);
-                        //Execute the command for that node.
-                        node.getCommand().execute(convertedArgs);
+                    //Check if the command args the user entered are valid.
+                    if(findTypePattern((Object[]) node,output,types)) {
+
+                        ArgumentNode arg = output.get(output.size()-1);
+                        //TODO Handle executions.
+                        //Only execute the node if the node's command execute is specified
+                        if(arg.getCommand() != null) {
+                            wasPatternFound = true;
+
+                            arg.getCommand().execute(convertArguments(args,types));
+                        }
+                        else
+                            throw new CommandSyntaxError();
                     }
-
                 }
 
-
-                if(!argsMatched) {
-                    throwSyntaxError();
-                }
-
+                if(!wasPatternFound)
+                    throw new CommandSyntaxError();
             }
+            else
+                throw new CommandSyntaxError();
         }
 
     }
 
-    private void throwSyntaxError() throws ClassNotFoundException {
-        throw new ClassNotFoundException("The command specified was not found");
+    /** Deep searches for the Object[] nodeArray in hopes of finding a match with the arguments TYPE[]. **/
+    private boolean findTypePattern(final Object[] nodeArray,ArrayList<ArgumentNode> output, final Token.TYPE[] args) {
+
+        /* Base case, we don't want to go on if we know that we have made it
+        this far and there are no more args to handle. */
+        if(args.length == 0) {
+            return true;
+        }
+
+        //Go through the nodes/object[] in the array.
+        for(int i = 0; i < nodeArray.length; i++) {
+            Object n = nodeArray[i];
+
+            if(n instanceof Object[]) {
+                //If n is an object array, we have to go one step deeper.
+                return findTypePattern((Object[])n,output,args);
+            }
+            else if(n instanceof ArgumentNode) {
+
+                //Retrieve the type
+                Token.TYPE nodeType = ((ArgumentNode) n).getType();
+
+                //If the types are equivalent, we want to return (go deeper), if not we increment.
+                if(nodeType.equals(args[0])) {
+
+                    //The arguments of the node
+                    Object[] nodeArguments = ((ArgumentNode) n).getArgs().toArray();
+
+                    //Add it to the output array
+                    output.add((ArgumentNode) n);
+
+                    return findTypePattern(nodeArguments,output,Arrays.copyOfRange(args,1,args.length));
+                }
+                else
+                    //Increment, go to next in the array. If there are no more elements, we will return false.
+                    i++;
+
+            }
+        }
+
+        //Return false, no match.
+        return false;
     }
 
+    /** Returns the types of arguments **/
     private Token.TYPE[] getArgumentTypes(String[] args) {
         Token.TYPE[] types = new Token.TYPE[args.length];
         for(int i = 0; i < types.length; i++) {
@@ -72,9 +121,8 @@ public class Parser {
         return types;
     }
 
-    //TODO change this
-    /** Parse the arguments and execute the command if everything works out **/
-    private Object[] parseArguments(String[] args, Token.TYPE[] types) throws ClassNotFoundException {
+    /** Converts the arguments from type String to their actual data type. **/
+    private Object[] convertArguments(String[] args, Token.TYPE[] types) throws CommandSyntaxError {
 
         /*
             Create a copy so we can insert Object types. Not possible with the current
@@ -82,7 +130,6 @@ public class Parser {
         */
 
         Object[] copyArgs = new Object[args.length];
-
         System.arraycopy(args,0,copyArgs,0,args.length);
 
         for(int i = 0; i < copyArgs.length; i++) {
@@ -108,26 +155,16 @@ public class Parser {
                     case BOOLEAN:
                         copyArgs[i] = Boolean.valueOf(arg);
                         break;
-
                 }
-
             }
             else {
-                throwSyntaxError();
+                throw new CommandSyntaxError();
             }
 
         }
-
 
         return copyArgs;
 
     }
 
-    public void registerCommand(Command cmd) {
-        registeredCommands.add(cmd);
-    }
-
-    public ArrayList<Command> getRegisteredCommands() {
-        return registeredCommands;
-    }
 }

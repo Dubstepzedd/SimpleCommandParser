@@ -3,7 +3,7 @@ package com.liamand.commands;
 @FunctionalInterface
 public interface Command {
 
-    /**This is the method that is run when one 'calls' the command. **/
+    /**This is the method that is called when a command is executed. **/
     void execute(Object[] args);
 
 

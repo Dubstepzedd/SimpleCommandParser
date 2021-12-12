@@ -4,10 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Token {
+    //----- VARIABLES -----//
     private static Pattern stringPattern = Pattern.compile("[a-z]",Pattern.CASE_INSENSITIVE);
     private static Pattern integerPattern = Pattern.compile("^\\d+$");
     private static Pattern decimalPattern = Pattern.compile("^\\d+[.]\\d+$");
 
+    /** An enum containing different data types. **/
     public enum TYPE {
         STRING,
         INTEGER,
@@ -17,6 +19,7 @@ public class Token {
         UNIDENTIFIED
     }
 
+    /** Evaluates a String and returns it's TYPE **/
     public static TYPE getType(String str) {
         //We check if it's a boolean first as the stringPattern will see it as a String.
         if(isBoolean(str))

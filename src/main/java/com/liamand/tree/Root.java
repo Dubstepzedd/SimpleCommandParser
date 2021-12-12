@@ -6,29 +6,37 @@ import com.liamand.commands.Command;
 import java.util.ArrayList;
 
 public class Root {
-
+    //----- VARIABLES -----//
+    private ArrayList<Object> args;
     private String literal;
-    private ArrayList<ArgumentNode> arguments;
 
+    /** Initializes a new Root with a specified literal. **/
     public Root(String literal) {
-        arguments = new ArrayList<>();
+        args = new ArrayList<>();
         this.literal = literal;
     }
 
-    public Root executes(Command command) {
-        return then(new ArgumentNode(new Token.TYPE[] { Token.TYPE.NONE }).executes(command));
+    /** Defines what command the root, that being when no arguments are given, will execute. **/
+    public Root executes(Command cmd)  {
+
+        return then(new ArgumentNode(Token.TYPE.NONE).executes(cmd));
     }
 
-    public Root then(ArgumentNode arg) {
-        arguments.add(arg);
+    /** Adds an ArgumentNode to the root, that being the first argument after the literal **/
+    public Root then(ArgumentNode node) {
+
+        args.add(new Object[] {node});
         return this;
     }
 
-    public ArrayList<ArgumentNode> getArguments() {
-        return arguments;
-    }
-
+    //----- GETTERS -----//
+    /** Returns the literal of the Root **/
     public String getLiteral() {
         return literal;
     }
+    /** Returns the list of arguments that the Root carries **/
+    public ArrayList<Object> getArgs() {
+        return args;
+    }
+
 }
