@@ -67,6 +67,7 @@ public class Parser {
 
     }
 
+    //TODO There are some weaknesses in this code. We do not need output for example. Try to improve on this.
     /** Deep searches for the Object[] nodeArray in hopes of finding a match with the arguments TYPE[]. **/
     private boolean findTypePattern(final Object[] nodeArray,ArrayList<ArgumentNode> output, final Token.TYPE[] args) {
 

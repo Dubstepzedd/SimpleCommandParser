@@ -2,23 +2,30 @@ package com.liamand.tree;
 
 import com.liamand.Token;
 import com.liamand.commands.Command;
+import com.liamand.exceptions.CommandCreationError;
 
 import java.util.ArrayList;
 
 public class ArgumentNode {
     //----- VARIABLES -----//
+    private boolean isCommandSet;
     private Token.TYPE type;
     private ArrayList<Object> args;
     private Command cmd;
 
     /** Initializes a new ArgumentNode with a specified TYPE. **/
     public ArgumentNode(Token.TYPE type) {
+        isCommandSet = false;
         args = new ArrayList<>();
         this.type = type;
     }
 
     /** Defines what command that will execute **/
-    public ArgumentNode executes(Command cmd) {
+    public ArgumentNode executes(Command cmd) throws CommandCreationError {
+        if(isCommandSet)
+            throw new CommandCreationError("Execute command is already set for this ArgumentNode");
+
+        isCommandSet = true;
         this.cmd = cmd;
         return this;
     }
