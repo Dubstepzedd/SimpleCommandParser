@@ -4,7 +4,7 @@ import com.liamand.commands.Command;
 
 import java.util.Scanner;
 
-
+/*
 public class Main {
     //This is an example of how to run the Command Parser
     public static final char IDENTIFIER = '/';
@@ -28,8 +28,8 @@ public class Main {
             }
 
             @Override
-            public Argument.TYPE[] getArguments() {
-                return new Argument.TYPE[0];
+            public Token.TYPE[] getArguments() {
+                return new Token.TYPE[] {Token.TYPE.STRING};
             }
 
             @Override
@@ -55,8 +55,8 @@ public class Main {
             }
 
             @Override
-            public Argument.TYPE[] getArguments() {
-                return new Argument.TYPE[0];
+            public Token.TYPE[] getArguments() {
+                return new Token.TYPE[0];
             }
 
             @Override
@@ -78,8 +78,8 @@ public class Main {
             }
 
             @Override
-            public Argument.TYPE[] getArguments() {
-                return new Argument.TYPE[0];
+            public Token.TYPE[] getArguments() {
+                return new Token.TYPE[0];
             }
 
             @Override
@@ -109,3 +109,4 @@ public class Main {
     }
 
 }
+*/

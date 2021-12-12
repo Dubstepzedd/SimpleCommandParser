@@ -1,6 +1,8 @@
 package com.liamand;
 
 import com.liamand.commands.Command;
+import com.liamand.tree.ArgumentNode;
+import com.liamand.tree.Root;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,58 +17,79 @@ public class Parser {
     }
 
     /** Parses a command string. We therefore assume that this is an actual command **/
-    public void parse(String str) throws ClassNotFoundException{
+    public void parse(String str,Dispatcher dispatcher) throws ClassNotFoundException{
         //Tokenize the String
         String[] tokenizedStr = str.split(SEPARATOR);
 
         //Get the keyword and arguments
-        String keyword = tokenizedStr[0];
+        String literal = tokenizedStr[0];
         String[] args = Arrays.copyOfRange(tokenizedStr,1,tokenizedStr.length);
 
-        boolean wasFound = false;
         //Check that the keyword, str, exists.
-        for(Command cmd : getRegisteredCommands()) {
+        for(Root root : dispatcher.getCommands()) {
             //TODO Add (1) Arguments and (2) handle commands with or without arguments.
-            if(keyword.equals(cmd.getKeyWord())) {
+            if(literal.equals(root.getLiteral())) {
 
-                //Check if there are any arguments
-                if(args.length > 0) {
-                    if(cmd.getArguments().length == args.length) {
+                Token.TYPE[] parsedArgsTypes = getArgumentTypes(args);
+                if(parsedArgsTypes.length == 0)
+                    parsedArgsTypes = new Token.TYPE[] {Token.TYPE.NONE};
 
-                        wasFound = parseArguments(cmd,args);
+                //Loop through the arguments that the root has.
+                boolean argsMatched = false;
+                for(ArgumentNode node : root.getArguments()) {
+
+                    //Check if the argument types match
+                    if(Arrays.equals(node.getArgTypes(), parsedArgsTypes)) {
+                        argsMatched = true;
+                        //Convert the String array to the actual types
+                        Object[] convertedArgs = parseArguments(args,parsedArgsTypes);
+                        //Execute the command for that node.
+                        node.getCommand().execute(convertedArgs);
                     }
+
                 }
-                //We have 0 arguments
-                else {
-                    wasFound = true;
-                    cmd.execute(new String[0]);
+
+
+                if(!argsMatched) {
+                    throwSyntaxError();
                 }
 
             }
         }
 
-        //TODO Check if it's possible to do without boolean
-        if(!wasFound) {
-            throw new ClassNotFoundException("The command specified was not found");
-        }
     }
 
+    private void throwSyntaxError() throws ClassNotFoundException {
+        throw new ClassNotFoundException("The command specified was not found");
+    }
+
+    private Token.TYPE[] getArgumentTypes(String[] args) {
+        Token.TYPE[] types = new Token.TYPE[args.length];
+        for(int i = 0; i < types.length; i++) {
+            types[i] = Token.getType(args[i]);
+        }
+
+        return types;
+    }
+
+    //TODO change this
     /** Parse the arguments and execute the command if everything works out **/
-    private boolean parseArguments(Command cmd, String[] args) {
+    private Object[] parseArguments(String[] args, Token.TYPE[] types) throws ClassNotFoundException {
 
         /*
             Create a copy so we can insert Object types. Not possible with the current
             String array as String inherits from Object.
         */
+
         Object[] copyArgs = new Object[args.length];
 
         System.arraycopy(args,0,copyArgs,0,args.length);
 
         for(int i = 0; i < copyArgs.length; i++) {
             //Retrieve the type of the current argument.
-            Argument.TYPE argType = Argument.getType((String)copyArgs[i]);
+            Token.TYPE argType = Token.getType((String)copyArgs[i]);
 
-            if(argType.equals(cmd.getArguments()[i])) {
+            if(argType.equals(types[i])) {
                 //Retrieve the argument in String form.
                 String arg = args[i];
 
@@ -90,14 +113,13 @@ public class Parser {
 
             }
             else {
-                return false;
+                throwSyntaxError();
             }
 
         }
 
-        cmd.execute(copyArgs);
 
-        return true;
+        return copyArgs;
 
     }
 

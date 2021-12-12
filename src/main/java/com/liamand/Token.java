@@ -3,7 +3,7 @@ package com.liamand;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Argument {
+public class Token {
     private static Pattern stringPattern = Pattern.compile("[a-z]",Pattern.CASE_INSENSITIVE);
     private static Pattern integerPattern = Pattern.compile("^\\d+$");
     private static Pattern decimalPattern = Pattern.compile("^\\d+[.]\\d+$");
@@ -13,6 +13,7 @@ public class Argument {
         INTEGER,
         FLOAT,
         BOOLEAN,
+        NONE,
         UNIDENTIFIED
     }
 
