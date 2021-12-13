@@ -1,0 +1,10 @@
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\Dispatcher.java
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\TestMain.java
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\commands\Command.java
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\exceptions\CommandCreationError.java
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\exceptions\ExecutionCommandError.java
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\tree\ArgumentNode.java
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\tree\Root.java
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\Parser.java
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\exceptions\CommandSyntaxError.java
+C:\Programming\Java_Projects\SimpleCommandParser\src\main\java\com\liamand\Token.java

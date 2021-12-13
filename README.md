@@ -58,7 +58,7 @@ This will only occur if the user tries to run a command such as ``help 15`` but 
 
 ``CommandSyntaxError`` is thrown when the user's input does not match any of your commands.
 
-### <ins>Conclusion</ins> 
+### <ins>Is this library for you?</ins> 
 This Command Parser is not perfect, and might not suit everyone's needs. If you want a more advanced command parser I would recommend using Mojang's ``Brigadier`` library which is 
 available here on GitHub. The syntax of this Command Parser has taken inspiration from their library, so much credit to the ``Brigadier`` team!
 
