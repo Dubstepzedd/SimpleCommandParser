@@ -45,7 +45,18 @@ split the ``String`` on all the spaces.
 
 Now we need to parse some kind of input. This is done through the ``.parse(String, Dispatcher)`` method. Simply input a ``String`` that matches a command and an instance of the ``Dispatcher`` class.
 
+###<ins>Exceptions</ins>
+There are 3 types of exceptions. ``CommandCreationError``, ``CommandSyntaxError`` and ``ExecutionCommandError``.
+Two of these are related to the creation of the commands, while one is thrown when the input of the user is faulty.
 
+``CommandCreationError`` is thrown when something goes wrong with the creation of a command. One example would be if you have multiple
+``executes(Command)``. 
+
+``ExecutionCommandError`` is also related to the creation of a command, but is separate as you might want to handle this differently.
+This is thrown when an argument node does not have a ``executed(Command)`` when the ``Parser`` is trying to execute that node.
+This will only occur if the user tries to run a command such as ``help 15`` but you only have a ``executes(Command)`` on the ``Root`` and the last ``ArgumentNode``.
+
+``CommandSyntaxError`` is thrown when the user's input does not match any of your commands.
 
 ### <ins>Conclusion</ins> 
 This Command Parser is not perfect, and might not suit everyone's needs. If you want a more advanced command parser I would recommend using Mojang's ``Brigadier`` library which is 
