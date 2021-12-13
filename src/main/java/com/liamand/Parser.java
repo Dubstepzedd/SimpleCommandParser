@@ -2,6 +2,7 @@ package com.liamand;
 
 import com.liamand.exceptions.CommandCreationError;
 import com.liamand.exceptions.CommandSyntaxError;
+import com.liamand.exceptions.ExecutionCommandError;
 import com.liamand.tree.ArgumentNode;
 import com.liamand.tree.Root;
 
@@ -18,7 +19,7 @@ public class Parser {
     }
 
     /** Parses a command string. We therefore assume that this is an actual command **/
-    public void parse(final String str,final Dispatcher dispatcher) throws CommandSyntaxError,CommandCreationError{
+    public void parse(final String str,final Dispatcher dispatcher) throws CommandSyntaxError,ExecutionCommandError {
         //Tokenize the String
         String[] tokenizedStr = str.split(SEPARATOR);
 
@@ -57,8 +58,8 @@ public class Parser {
                         //Otherwise, if the command is not created, we throw a CommandSyntaxError.
                         //NOTE This only works on ArgumentNodes, and not the Root.
                         else
-                            throw new CommandCreationError("Executed ArgumentNode command was not initiated in " +
-                                    "root '" + root.getLiteral() + "'.");
+                            throw new ExecutionCommandError("Executed ArgumentNode command was not initiated in " +
+                                    "root '" + root.getLiteral() + "'");
                     }
                 }
 
@@ -71,8 +72,9 @@ public class Parser {
 
     }
 
-    /** Deep searches for the Object[] nodeArray in hopes of finding a match with the arguments TYPE[]. **/
-    private ArgumentNode findTypePattern(final ArgumentNode node, Token.TYPE[] args) throws CommandCreationError{
+    /** Checks if the argument types exist in the node and the sub nodes. Returns null if nothing was found and
+     * the node if it was found. **/
+    private ArgumentNode findTypePattern(final ArgumentNode node, Token.TYPE[] args){
 
         //Check if the current node is equal to the first argument type.
         if(node.getType().equals(args[0])) {

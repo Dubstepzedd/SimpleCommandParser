@@ -2,12 +2,13 @@ package com.liamand;
 
 import com.liamand.exceptions.CommandCreationError;
 import com.liamand.exceptions.CommandSyntaxError;
+import com.liamand.exceptions.ExecutionCommandError;
 import com.liamand.tree.ArgumentNode;
 import com.liamand.tree.Root;
 
 public class TestMain {
 
-    public static void main(String[] args) throws CommandSyntaxError, CommandCreationError {
+    public static void main(String[] args) throws CommandSyntaxError, CommandCreationError, ExecutionCommandError {
         Dispatcher dispatcher = new Dispatcher();
 
         dispatcher.register(new Root("help").then(
