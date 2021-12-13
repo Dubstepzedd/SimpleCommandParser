@@ -1,12 +1,9 @@
 package com.liamand;
 
-import com.liamand.exceptions.CommandCreationError;
 import com.liamand.exceptions.CommandSyntaxError;
 import com.liamand.exceptions.ExecutionCommandError;
 import com.liamand.tree.ArgumentNode;
 import com.liamand.tree.Root;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Parser {
@@ -18,7 +15,7 @@ public class Parser {
         SEPARATOR = separator;
     }
 
-    /** Parses a command string. We therefore assume that this is an actual command **/
+    /** Parses a String and checks if it matches any of the registered commands in the Dispatcher. **/
     public void parse(final String str,final Dispatcher dispatcher) throws CommandSyntaxError,ExecutionCommandError {
         //Tokenize the String
         String[] tokenizedStr = str.split(SEPARATOR);
@@ -26,7 +23,7 @@ public class Parser {
         //Get the literal and arguments
         String literal = tokenizedStr[0];
         String[] args = Arrays.copyOfRange(tokenizedStr,1,tokenizedStr.length);
-        Token.TYPE[] types = getArgumentTypes(args);
+        Token.TYPE[] types = convertArgumentToTypes(args);
 
         //If the arguments are empty, replace it with a new array with the single element TYPE.NONE.
         if(types.length == 0) {
@@ -59,7 +56,7 @@ public class Parser {
                         //NOTE This only works on ArgumentNodes, and not the Root.
                         else
                             throw new ExecutionCommandError("Executed ArgumentNode command was not initiated in " +
-                                    "root '" + root.getLiteral() + "'");
+                                    "root '" + root.getLiteral() + "' at a node with the TYPE " + outputNode.getType() + ".");
                     }
                 }
 
@@ -72,7 +69,7 @@ public class Parser {
 
     }
 
-    /** Checks if the argument types exist in the node and the sub nodes. Returns null if nothing was found and
+    /** Checks if the TYPE array exists in a node, and it's sub nodes. Returns null if nothing was found and
      * the node if it was found. **/
     private ArgumentNode findTypePattern(final ArgumentNode node, Token.TYPE[] args){
 
@@ -109,8 +106,8 @@ public class Parser {
         return null;
     }
 
-    /** Returns the types of arguments **/
-    private Token.TYPE[] getArgumentTypes(String[] args) {
+    /** Converts a String array to a TYPE array.  **/
+    private Token.TYPE[] convertArgumentToTypes(String[] args) {
         Token.TYPE[] types = new Token.TYPE[args.length];
         for(int i = 0; i < types.length; i++) {
             types[i] = Token.getType(args[i]);
