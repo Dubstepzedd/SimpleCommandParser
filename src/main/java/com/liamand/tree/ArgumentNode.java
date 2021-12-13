@@ -10,7 +10,7 @@ public class ArgumentNode {
     //----- VARIABLES -----//
     private boolean isCommandSet;
     private Token.TYPE type;
-    private ArrayList<Object> args;
+    private ArrayList<ArgumentNode> args;
     private Command cmd;
 
     /** Initializes a new ArgumentNode with a specified TYPE. **/
@@ -32,7 +32,7 @@ public class ArgumentNode {
 
     /** Adds a node to this ArgumentNode, extending the allowed arguments for the command. **/
     public ArgumentNode then(ArgumentNode node) {
-        args.add(new Object[] {node});
+        args.add(node);
         return this;
     }
 
@@ -42,7 +42,7 @@ public class ArgumentNode {
         return type;
     }
     /** Returns the list of arguments which the ArgumentNode carries. **/
-    public ArrayList<Object> getArgs() {
+    public ArrayList<ArgumentNode> getArgs() {
         return args;
     }
 

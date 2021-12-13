@@ -1,5 +1,6 @@
 package com.liamand;
 
+import com.liamand.exceptions.CommandCreationError;
 import com.liamand.exceptions.CommandSyntaxError;
 import com.liamand.tree.ArgumentNode;
 import com.liamand.tree.Root;
@@ -17,7 +18,7 @@ public class Parser {
     }
 
     /** Parses a command string. We therefore assume that this is an actual command **/
-    public void parse(final String str,final Dispatcher dispatcher) throws CommandSyntaxError{
+    public void parse(final String str,final Dispatcher dispatcher) throws CommandSyntaxError,CommandCreationError{
         //Tokenize the String
         String[] tokenizedStr = str.split(SEPARATOR);
 
@@ -36,25 +37,28 @@ public class Parser {
             //The keyword match
             if(root.getLiteral().equals(literal)) {
 
-                //Create an array with the known depth. We check all nodes / leaves for the args pattern.
-                ArrayList<ArgumentNode> output = new ArrayList<>();
-                //Check arguments!
+                //We create this to check if there are any matches in the pattern. If not we throw a CommandSyntax error.
                 boolean wasPatternFound = false;
-                for(Object node : root.getArgs()) {
+                //Go through all the ArgumentNodes that the Root contains.
+                for(ArgumentNode node : root.getArgs()) {
 
                     //Check if the command args the user entered are valid.
-                    if(findTypePattern((Object[]) node,output,types)) {
+                    ArgumentNode outputNode = findTypePattern(node,types);
+                    //If the output is not null, meaning that it found something, we do something
+                    if(outputNode != null) {
 
-                        ArgumentNode arg = output.get(output.size()-1);
-                        //TODO Handle executions.
                         //Only execute the node if the node's command execute is specified
-                        if(arg.getCommand() != null) {
+                        if(outputNode.getCommand() != null) {
                             wasPatternFound = true;
 
-                            arg.getCommand().execute(convertArguments(args,types));
+                            //We execute that specific node.
+                            outputNode.getCommand().execute(convertArguments(args,types));
                         }
+                        //Otherwise, if the command is not created, we throw a CommandSyntaxError.
+                        //NOTE This only works on ArgumentNodes, and not the Root.
                         else
-                            throw new CommandSyntaxError();
+                            throw new CommandCreationError("Executed ArgumentNode command was not initiated in " +
+                                    "root '" + root.getLiteral() + "'.");
                     }
                 }
 
@@ -67,49 +71,36 @@ public class Parser {
 
     }
 
-    //TODO There are some weaknesses in this code. We do not need output for example. Try to improve on this.
     /** Deep searches for the Object[] nodeArray in hopes of finding a match with the arguments TYPE[]. **/
-    private boolean findTypePattern(final Object[] nodeArray,ArrayList<ArgumentNode> output, final Token.TYPE[] args) {
+    private ArgumentNode findTypePattern(final ArgumentNode node, Token.TYPE[] args) throws CommandCreationError{
 
-        /* Base case, we don't want to go on if we know that we have made it
-        this far and there are no more args to handle. */
-        if(args.length == 0) {
-            return true;
-        }
+        //Check if the current node is equal to the first argument type.
+        if(node.getType().equals(args[0])) {
+            //Splice the args array for recursion
+            args = Arrays.copyOfRange(args,1,args.length);
 
-        //Go through the nodes/object[] in the array.
-        for(int i = 0; i < nodeArray.length; i++) {
-            Object n = nodeArray[i];
+            //Check the length of args. If it is zero we return this node as it is complete.
+            if(args.length == 0)
+                return node;
+            //Otherwise, we check the size of the node's arguments to see if it has any.
+            if(node.getArgs().size() > 0) {
+                //If there are arguments, we loop through the nodes.
+                for(ArgumentNode subNode : node.getArgs()) {
 
-            if(n instanceof Object[]) {
-                //If n is an object array, we have to go one step deeper.
-                return findTypePattern((Object[])n,output,args);
-            }
-            else if(n instanceof ArgumentNode) {
-
-                //Retrieve the type
-                Token.TYPE nodeType = ((ArgumentNode) n).getType();
-
-                //If the types are equivalent, we want to return (go deeper), if not we increment.
-                if(nodeType.equals(args[0])) {
-
-                    //The arguments of the node
-                    Object[] nodeArguments = ((ArgumentNode) n).getArgs().toArray();
-
-                    //Add it to the output array
-                    output.add((ArgumentNode) n);
-
-                    return findTypePattern(nodeArguments,output,Arrays.copyOfRange(args,1,args.length));
+                    //Then we use recursion by using the same method on the nodes.
+                    return findTypePattern(subNode,args);
                 }
-                else
-                    //Increment, go to next in the array. If there are no more elements, we will return false.
-                    i++;
 
             }
+            //If it does not, we return as it is a syntax error.
+            else {
+                return null;
+            }
+
         }
 
-        //Return false, no match.
-        return false;
+        //Return null, no match.
+        return null;
     }
 
     /** Returns the types of arguments **/

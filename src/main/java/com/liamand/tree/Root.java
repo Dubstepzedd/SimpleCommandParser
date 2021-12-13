@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Root {
     //----- VARIABLES -----//
     private boolean isCommandSet;
-    private ArrayList<Object> args;
+    private ArrayList<ArgumentNode> args;
     private String literal;
 
     /** Initializes a new Root with a specified literal. **/
@@ -30,8 +30,7 @@ public class Root {
 
     /** Adds an ArgumentNode to the root, that being the first argument after the literal **/
     public Root then(ArgumentNode node) {
-
-        args.add(new Object[] {node});
+        args.add(node);
         return this;
     }
 
@@ -41,7 +40,7 @@ public class Root {
         return literal;
     }
     /** Returns the list of arguments that the Root carries **/
-    public ArrayList<Object> getArgs() {
+    public ArrayList<ArgumentNode> getArgs() {
         return args;
     }
 
