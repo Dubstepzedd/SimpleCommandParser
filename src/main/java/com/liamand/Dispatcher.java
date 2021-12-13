@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 public class Dispatcher {
     //----- VARIABLES -----//
-    private ArrayList<Root> commands;
+    private final ArrayList<Root> commands;
 
     /** Initializes a new Dispatcher **/
     public Dispatcher() {
         commands = new ArrayList<>();
     }
     /** Register a new Root (command) **/
-    public void register(Root root) {
+    public void register(final Root root) {
         commands.add(root);
     }
     //----- GETTERS -----//

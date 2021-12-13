@@ -12,13 +12,14 @@ public class TestMain {
         Dispatcher dispatcher = new Dispatcher();
 
         dispatcher.register(new Root("help").then(
-                new ArgumentNode(Token.TYPE.INTEGER).executes((argument) ->
-                        System.out.println("Integer!")).then(new ArgumentNode(Token.TYPE.STRING))).then(new ArgumentNode(Token.TYPE.STRING).executes((c) ->
-                System.out.println("String as first arg"))));
+                new ArgumentNode(Token.TYPE.STRING).then(new ArgumentNode(Token.TYPE.INTEGER).executes(
+                        (c) -> System.out.println("2 arg")
+                ))
+                ));
 
         Parser parser = new Parser(" ");
 
-        parser.parse("help 15 hej",dispatcher);
+        parser.parse("help hello 15",dispatcher);
     }
 
 

@@ -5,9 +5,9 @@ import java.util.regex.Pattern;
 
 public class Token {
     //----- VARIABLES -----//
-    private static Pattern stringPattern = Pattern.compile("[a-z]",Pattern.CASE_INSENSITIVE);
-    private static Pattern integerPattern = Pattern.compile("^\\d+$");
-    private static Pattern decimalPattern = Pattern.compile("^\\d+[.]\\d+$");
+    private final static Pattern stringPattern = Pattern.compile("[a-z]",Pattern.CASE_INSENSITIVE);
+    private final static Pattern integerPattern = Pattern.compile("^\\d+$");
+    private final static Pattern decimalPattern = Pattern.compile("^\\d+[.]\\d+$");
 
     /** An enum containing different data types. **/
     public enum TYPE {
@@ -19,7 +19,7 @@ public class Token {
         UNIDENTIFIED
     }
 
-    /** Evaluates a String and returns it's TYPE **/
+    /** Evaluates a String and returns its TYPE **/
     public static TYPE getType(String str) {
         //We check if it's a boolean first as the stringPattern will see it as a String.
         if(isBoolean(str))

@@ -14,14 +14,14 @@ public class ArgumentNode {
     private Command cmd;
 
     /** Initializes a new ArgumentNode with a specified TYPE. **/
-    public ArgumentNode(Token.TYPE type) {
+    public ArgumentNode(final Token.TYPE type) {
         isCommandSet = false;
         args = new ArrayList<>();
         this.type = type;
     }
 
     /** Defines what command that will execute **/
-    public ArgumentNode executes(Command cmd) throws CommandCreationError {
+    public ArgumentNode executes(final Command cmd) throws CommandCreationError {
         if(isCommandSet)
             throw new CommandCreationError("Execute command is already set for this ArgumentNode");
 
@@ -31,7 +31,7 @@ public class ArgumentNode {
     }
 
     /** Adds a node to this ArgumentNode, extending the allowed arguments for the command. **/
-    public ArgumentNode then(ArgumentNode node) {
+    public ArgumentNode then(final ArgumentNode node) {
         args.add(node);
         return this;
     }

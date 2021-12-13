@@ -6,7 +6,7 @@ public class CommandSyntaxError extends Exception {
         super("Invalid command syntax");
     }
     /** Initializes a new CommandSyntaxError with a custom message, thrown when no command is found **/
-    public CommandSyntaxError(String msg) {
+    public CommandSyntaxError(final String msg) {
         super(msg);
     }
 

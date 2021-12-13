@@ -107,7 +107,7 @@ public class Parser {
     }
 
     /** Converts a String array to a TYPE array.  **/
-    private Token.TYPE[] convertArgumentToTypes(String[] args) {
+    private Token.TYPE[] convertArgumentToTypes(final String[] args) {
         Token.TYPE[] types = new Token.TYPE[args.length];
         for(int i = 0; i < types.length; i++) {
             types[i] = Token.getType(args[i]);
@@ -117,7 +117,7 @@ public class Parser {
     }
 
     /** Converts the arguments from type String to their actual data type. **/
-    private Object[] convertArguments(String[] args, Token.TYPE[] types) throws CommandSyntaxError {
+    private Object[] convertArguments(final String[] args, final Token.TYPE[] types) throws CommandSyntaxError {
 
         /*
             Create a copy so we can insert Object types. Not possible with the current
@@ -137,19 +137,10 @@ public class Parser {
 
                 switch (argType) {
                     //We don't need to handle String as that Object is already used in the array.
-
-                    case INTEGER:
-                        //Replace the String with the correct Object.
-                        copyArgs[i] = Integer.valueOf(arg);
-                        break;
-
-                    case FLOAT:
-                        copyArgs[i] = Float.valueOf(arg);
-                        break;
-
-                    case BOOLEAN:
-                        copyArgs[i] = Boolean.valueOf(arg);
-                        break;
+                    //Replace the String with the correct Object.
+                    case INTEGER -> copyArgs[i] = Integer.valueOf(arg);
+                    case FLOAT -> copyArgs[i] = Float.valueOf(arg);
+                    case BOOLEAN -> copyArgs[i] = Boolean.valueOf(arg);
                 }
             }
             else {

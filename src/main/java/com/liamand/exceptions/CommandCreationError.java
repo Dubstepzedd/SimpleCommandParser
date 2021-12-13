@@ -2,7 +2,7 @@ package com.liamand.exceptions;
 
 public class CommandCreationError extends Exception {
 
-    public CommandCreationError(String msg) {
+    public CommandCreationError(final String msg) {
         super(msg);
     }
 }

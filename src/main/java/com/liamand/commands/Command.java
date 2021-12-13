@@ -4,7 +4,7 @@ package com.liamand.commands;
 public interface Command {
 
     /**This is the method that is called when a command is executed. **/
-    void execute(Object[] args);
+    void execute(final Object[] args);
 
 
 }
