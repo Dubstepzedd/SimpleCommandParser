@@ -45,7 +45,7 @@ split the ``String`` on all the spaces.
 
 Now we need to parse some kind of input. This is done through the ``.parse(String, Dispatcher)`` method. Simply input a ``String`` that matches a command and an instance of the ``Dispatcher`` class.
 
-###<ins>Exceptions</ins>
+### <ins>Exceptions</ins>
 There are 3 types of exceptions. ``CommandCreationError``, ``CommandSyntaxError`` and ``ExecutionCommandError``.
 Two of these are related to the creation of the commands, while one is thrown when the input of the user is faulty.
 
