@@ -90,7 +90,11 @@ public class Parser {
                 for(ArgumentNode subNode : node.getArgs()) {
 
                     //Then we use recursion by using the same method on the nodes.
-                    return findTypePattern(subNode,args);
+                    subNode = findTypePattern(subNode,args);
+
+                    //If the subNode is not null, then we have found it "at this level". So we return that
+                    if(subNode != null)
+                        return subNode;
                 }
 
             }
