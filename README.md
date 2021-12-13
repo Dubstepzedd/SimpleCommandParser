@@ -4,6 +4,19 @@
 ### <ins>Short Description
 This is a simple Command Parser. It allows the user to define commands and to execute them with help of the ``Parser`` class's ``.parse()`` method.
 
+### <ins>How to import the library </ins>
+You can import this repository by utilizing Maven.
+1. You will need to open your ``pom.xml`` file.
+2. Parse the following dependency code in between your ``dependencies`` start and end tag:
+    ```
+   <dependency>
+       <groupId>com.liamand</groupId>
+       <artifactId>simplecommandparser</artifactId>
+       <version>v.1.0.0</version>
+    </dependency>
+   ```
+3. Run ``mvn install`` and ``mvn compile`` and you **should** have access to the library!
+
 ## <ins>How to use the Command Parser</ins>
 
 ### <ins>Creating commands</ins>
