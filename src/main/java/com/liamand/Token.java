@@ -33,7 +33,7 @@ public class Token {
 
         return TYPE.UNIDENTIFIED;
     }
-    //TODO Should these be static?
+
     /**Handles a String with no spaces. e.g "Hello15". An empty String will return false. **/
     private static boolean isString(String str) {
 
