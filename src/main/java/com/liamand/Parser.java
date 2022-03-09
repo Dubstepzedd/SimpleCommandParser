@@ -7,7 +7,7 @@ import com.liamand.tree.Root;
 import java.util.Arrays;
 
 public class Parser {
-    //----- VARIABLES -----//
+    //----- Fields -----//
     private final String SEPARATOR;
 
     /** Initializes a new Parser with a specified word separator. **/

@@ -5,12 +5,13 @@ import com.liamand.commands.Command;
 import com.liamand.exceptions.CommandCreationError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Root {
-    //----- VARIABLES -----//
+    //----- Fields -----//
     private boolean isCommandSet;
-    private ArrayList<ArgumentNode> args;
-    private String literal;
+    private final List<ArgumentNode> args;
+    private final String literal;
 
     /** Initializes a new Root with a specified literal. **/
     public Root(final String literal) {
@@ -34,13 +35,13 @@ public class Root {
         return this;
     }
 
-    //----- GETTERS -----//
+    //----- Getters -----//
     /** Returns the literal of the Root **/
     public String getLiteral() {
         return literal;
     }
     /** Returns the list of arguments that the Root carries **/
-    public ArrayList<ArgumentNode> getArgs() {
+    public List<ArgumentNode> getArgs() {
         return args;
     }
 

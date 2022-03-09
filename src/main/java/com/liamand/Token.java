@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Token {
-    //----- VARIABLES -----//
+    //----- Fields -----//
     private final static Pattern stringPattern = Pattern.compile("[a-z]",Pattern.CASE_INSENSITIVE);
     private final static Pattern integerPattern = Pattern.compile("^\\d+$");
     private final static Pattern decimalPattern = Pattern.compile("^\\d+[.]\\d+$");
@@ -33,7 +33,7 @@ public class Token {
 
         return TYPE.UNIDENTIFIED;
     }
-    //TODO Should these be static?
+
     /**Handles a String with no spaces. e.g "Hello15". An empty String will return false. **/
     private static boolean isString(String str) {
 

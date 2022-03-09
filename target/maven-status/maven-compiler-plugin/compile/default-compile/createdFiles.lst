@@ -8,5 +8,4 @@ com\liamand\Parser$1.class
 com\liamand\Token$TYPE.class
 com\liamand\exceptions\CommandSyntaxError.class
 com\liamand\Parser.class
-com\liamand\TestMain.class
 com\liamand\Dispatcher.class
