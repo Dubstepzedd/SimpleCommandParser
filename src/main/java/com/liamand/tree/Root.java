@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Root {
-    //----- VARIABLES -----//
+    //----- Fields -----//
     private boolean isCommandSet;
     private final List<ArgumentNode> args;
     private final String literal;
@@ -35,7 +35,7 @@ public class Root {
         return this;
     }
 
-    //----- GETTERS -----//
+    //----- Getters -----//
     /** Returns the literal of the Root **/
     public String getLiteral() {
         return literal;

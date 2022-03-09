@@ -5,12 +5,13 @@ import com.liamand.commands.Command;
 import com.liamand.exceptions.CommandCreationError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ArgumentNode {
-    //----- VARIABLES -----//
+    //----- Fields -----//
     private boolean isCommandSet;
     private Token.TYPE type;
-    private ArrayList<ArgumentNode> args;
+    private List<ArgumentNode> args;
     private Command cmd;
 
     /** Initializes a new ArgumentNode with a specified TYPE. **/
@@ -36,13 +37,13 @@ public class ArgumentNode {
         return this;
     }
 
-    //----- GETTERS -----//
+    //----- Getters -----//
     /** Returns the TYPE of the ArgumentNode **/
     public Token.TYPE getType() {
         return type;
     }
     /** Returns the list of arguments which the ArgumentNode carries. **/
-    public ArrayList<ArgumentNode> getArgs() {
+    public List<ArgumentNode> getArgs() {
         return args;
     }
 

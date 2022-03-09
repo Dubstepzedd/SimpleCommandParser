@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Token {
-    //----- VARIABLES -----//
+    //----- Fields -----//
     private final static Pattern stringPattern = Pattern.compile("[a-z]",Pattern.CASE_INSENSITIVE);
     private final static Pattern integerPattern = Pattern.compile("^\\d+$");
     private final static Pattern decimalPattern = Pattern.compile("^\\d+[.]\\d+$");
