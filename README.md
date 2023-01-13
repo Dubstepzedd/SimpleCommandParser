@@ -2,7 +2,7 @@
 # <ins>SimpleCommandParser</ins>
 
 ### <ins>Short Description
-This is a simple Command Parser. It allows the user to define commands and to execute them with help of the ``Parser`` class's ``.parse()`` method.
+This is a simple Command Parser. It allows the user to define commands and to execute them with help of the ``Parser`` class's ``.parse()`` method. It was developed year 2021 during my first year of Computer Science.
 
 ### <ins>How to import the library </ins>
 You can import this repository by utilizing Maven.
@@ -40,7 +40,7 @@ The last step is to add a behaviour (the code that is run when the node is execu
 A command is a functional interface with one method, namely ``execute(Object[] args)``. It is therefore possible to insert a `lambda` as a parameter in the ``.executes(Command)`` method.
 
 An example:
-```Root root = new Root("help").then(new ArgumentNode(Token.TYPE.STRING).executes( (args) -> System.out.prinln(args)}))```
+```Root root = new Root("help").then(new ArgumentNode(Token.TYPE.STRING).executes( (args) -> System.out.println(args)}))```
 
 It is also possible to use the ``.executes(Command)`` method on the ``Root`` itself. That command will, however, only be executed when the user inputs no arguments.
 
