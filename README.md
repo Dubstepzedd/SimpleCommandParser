@@ -2,20 +2,23 @@
 # <ins>SimpleCommandParser</ins>
 
 ### <ins>Short Description
-This is a simple Command Parser. It allows the user to define commands and to execute them with help of the ``Parser`` class's ``.parse()`` method.
+This is a simple Command Parser. It allows the user to define commands and to execute them with help of the ``Parser`` class's ``.parse()`` method. It was developed year 2021 during my first year of Computer Science.
 
 ### <ins>How to import the library </ins>
-You can import this repository by utilizing Maven.
-1. You will need to open your ``pom.xml`` file.
-2. Parse the following dependency code in between your ``dependencies`` start and end tag:
-    ```
-   <dependency>
-       <groupId>com.liamand</groupId>
-       <artifactId>simplecommandparser</artifactId>
-       <version>v.1.0.0</version>
-    </dependency>
-   ```
-3. Run ``mvn install`` and ``mvn compile`` and you **should** have access to the library!
+~~You can import this repository by utilizing Maven.~~
+1. ~~You will need to open your ``pom.xml`` file.~~
+2. ~~Parse the following dependency code in between your ``dependencies`` start and end tag:~~
+```
+<dependency>
+   <groupId>com.liamand</groupId>
+   <artifactId>simplecommandparser</artifactId>
+   <version>v.1.0.0</version>
+</dependency>
+```
+3. ~~Run ``mvn install`` and ``mvn compile`` and you **should** have access to the library!~~
+
+Unfortunately, you'll not be able to import the library as shown above. As of now, you'll need to add the 
+source files manually.
 
 ## <ins>How to use the Command Parser</ins>
 
@@ -40,7 +43,7 @@ The last step is to add a behaviour (the code that is run when the node is execu
 A command is a functional interface with one method, namely ``execute(Object[] args)``. It is therefore possible to insert a `lambda` as a parameter in the ``.executes(Command)`` method.
 
 An example:
-```Root root = new Root("help").then(new ArgumentNode(Token.TYPE.STRING).executes( (args) -> System.out.prinln(args)}))```
+```Root root = new Root("help").then(new ArgumentNode(Token.TYPE.STRING).executes( (args) -> System.out.println(args)}))```
 
 It is also possible to use the ``.executes(Command)`` method on the ``Root`` itself. That command will, however, only be executed when the user inputs no arguments.
 
