@@ -5,17 +5,17 @@
 This is a simple Command Parser. It allows the user to define commands and to execute them with help of the ``Parser`` class's ``.parse()`` method. It was developed year 2021 during my first year of Computer Science.
 
 ### <ins>How to import the library </ins>
-~~You can import this repository by utilizing Maven.
-1. You will need to open your ``pom.xml`` file.
-2. Parse the following dependency code in between your ``dependencies`` start and end tag:
-    ```
-   <dependency>
-       <groupId>com.liamand</groupId>
-       <artifactId>simplecommandparser</artifactId>
-       <version>v.1.0.0</version>
-    </dependency>
-   ```
-3. Run ``mvn install`` and ``mvn compile`` and you **should** have access to the library!~~
+~~You can import this repository by utilizing Maven.~~
+1. ~~You will need to open your ``pom.xml`` file.~~
+2. ~~Parse the following dependency code in between your ``dependencies`` start and end tag:~~
+```
+<dependency>
+   <groupId>com.liamand</groupId>
+   <artifactId>simplecommandparser</artifactId>
+   <version>v.1.0.0</version>
+</dependency>
+```
+3. ~~Run ``mvn install`` and ``mvn compile`` and you **should** have access to the library!~~
 
 Unfortunately, you'll not be able to import the library as shown above. As of now, you'll need to add the 
 source files manually.
